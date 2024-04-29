@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library of Alexandria - Data Report</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .sub-header {
+    background: #555;
+    color: white;
+    padding: 10px;
+  }
+  .content {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+    padding: 10px;
+    text-align: left;
+  }
+  .data-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  .table-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .category-table, .author-table {
+    flex: 1;
+    padding: 10px;
+  }
+  .category-table th, .category-table td,
+  .author-table th, .author-table td {
+    padding: 8px 20px; 
+    text-align: left;
+    border: 1px solid #ccc;
+  }
+  .category-table + .author-table { /* Targets only the author table that follows a category table */
+    margin-left: -600px; /* Adjust this value to increase or decrease the space between the tables */
+  }
+  .category-table th, .author-table th {
+    background: #ddd;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  .data-table th {
+    background: #ddd;
+  }
+  .filter-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .filter-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+<a href="{{ url_for('report_books') }}" class="filter-button">Back to Filter</a>
+<div class="header">
+  <h1>Library of Alexandria - Data Report</h1>
+</div>
+<div class="sub-header">
+  <h2>Books Report</h2>
+</div>
+<div class="content">
+   <div class="summary">
+    {% if books %}
+    <p>Total books found: {{ books|length }}</p>
+    {% else %}
+    <p>Total books found: 0</p>
+    {% endif %}
+   </div>
+   <div class="table-container">
+    <div class="category-table">
+    <h3>Book Count by Category</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category, count in category_count %}
+        <tr>
+          <td>{{ category }}</td>
+          <td>{{ count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <div class="author-table">
+    <h3>Book Count by Author</h3>
+    <table>
+      <thead>
+	<tr>
+	  <th>Author</th>
+	  <th>Count</th>
+	</th>
+      </thead>
+      <tbody>
+	{% for author, count in author_count %}
+	<tr>
+	  <td>{{ author }}</td>
+	  <td>{{ count }}</td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+	<th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Category</th>
+        <th>Status</th>
+	<th>Loaned From</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if books %}
+        {% for book in books %}
+          <tr>
+	 	<td>{{ book.BookID }}</td>
+  		<td>{{ book.Title }}</td>
+  		<td>{{ book.Author }}</td>
+  		<td>{{ book.ISBN }}</td>
+  		<td>{{ book.Category }}</td>
+		<td>
+        		{% if book.Status == 'available' %}Available{% else %}Unavailable{% endif %}
+      		</td>
+      		<td>
+        		{% if book.Status == 'unavailable' %}{{ book.PatronName or 'Unknown' }}
+						{% else %}N/A{% endif %}
+      		</td>
+	  </tr>
+	{% endfor %}
+      {% else %}
+          <tr>
+  	     <td colspan="5">No books found based on the selected filters.</td>
+          </tr>
+      {% endif %}
+     </tbody>
+  </table>
+</div>
+</body>
+</html>
+

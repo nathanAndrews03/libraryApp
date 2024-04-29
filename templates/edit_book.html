@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Book</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 20px;
+    padding: 20px;
+  }
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+  }
+  h1 {
+    color: #333;
+  }
+  label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  .delete-btn {
+    background-color: #ff4136;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Edit Book</h1>
+  <form method="POST" action="{{ url_for('edit_book', book_id=book.BookID) }}">
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" value="{{ book.Title }}">
+    
+    <label for="author">Author:</label>
+    <input type="text" name="author" id="author" value="{{ book.Author }}">
+    
+    <label for="isbn">ISBN:</label>
+    <input type="text" name="isbn" id="isbn" value="{{ book.ISBN }}">
+    
+    <label for="category">Category:</label>
+    <input type="text" name="category" id="category" value="{{ book.Category }}">
+ 
+    <label for="status">Status:</label>
+    <input type="text" name="status" id="status" value="{{ book.Status }}">
+       
+    <input type="submit" value="Save Changes">
+  </form>
+
+  <form method="POST" action="{{ url_for('delete_book', book_id=book.BookID) }}">
+    <input type="submit" value="Delete Book" class="delete-btn">
+  </form>
+</div>
+</body>
+</html>
+

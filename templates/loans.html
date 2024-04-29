@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loans</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .loan {
+    margin: 20px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+  }
+  .loan-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    text-align: left;
+  }
+  .loan-item {
+    display: flex;
+    text-align: center;
+  }
+  .loan-item strong {
+    margin-right: 5px;  /* Add space between the label and its value */
+  }
+  .home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  .edit-btn, .add-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .edit-btn:hover, .add-btn:hover {
+    background-color: #0056b3;
+  }
+  input[type="submit"] {
+    width: 200px;
+    padding: 10px;
+    margin: 20px auto;
+    font-size: 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<a href="{{ url_for('home') }}" class="home-button">Home</a>
+
+<div class="header">
+  <h1>Loans</h1>
+</div>
+
+{% for loan in loans %}
+<div class="loan">
+  <div class="loan-details">
+    <div class="loan-item"><strong>LoanID:</strong> <span>{{ loan.LoanID }}</span></div>
+    <div class="loan-item"><strong>Loan Date:</strong> <span>{{ loan.LoanDate.strftime('%B %d') }}</span></div>
+    <div class="loan-item"><strong>BookID:</strong> <span>{{ loan.BookID }}</span></div>
+    <div class="loan-item"><strong>Due:</strong> <span>{{ loan.DueDate.strftime('%B %d') }}</span></div>
+    <div class="loan-item"><strong>PatronID:</strong> <span>{{ loan.PatronID }}</span></div>
+    <div class="loan-item"><strong>Status:</strong> <span>{{ loan.Status }}</span></div>
+  </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
+

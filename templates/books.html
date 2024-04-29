@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Books</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .book {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+  }
+  .book-details {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+  .book span {
+    margin-left: 10px;
+  }
+  .edit-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+  input[type="submit"] {
+    width: 200px;
+    padding: 10px;
+    margin: 20px auto;
+    font-size: 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  input[type="checkbox"] {
+    margin-left: 20px;
+  }
+
+  .home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+
+  .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+
+<a href="{{ url_for('home') }}" class="home-button">Home</a>
+
+
+<div class="header">
+  <h1>Books</h1>
+</div>
+
+<button id="myBtn">Add Book</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Add New Book</h2>
+    <form action="{{ url_for('add_book') }}" method="post">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required><br><br>
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" required><br><br>
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" name="isbn" required><br><br>
+      <label for="category">Category:</label>
+      <input type="text" id="category" name="category" required><br><br>
+      <input type="submit" value="Add Book">
+    </form>
+  </div>
+</div>
+
+
+<div class="book-filter">
+  <a href="{{ url_for('view_books_by_availability', availability='available') }}">Available Books</a>
+  <a href="{{ url_for('view_books_by_availability', availability='unavailable') }}">Unavailable Books</a>
+</div>
+
+<form action="{{ url_for('reserve_books' if availability == 'unavailable' else 'checkout_books') }}" method="post">
+  {% for book in books %}
+  <div class="book">
+    <div class="book-details">
+      <label>
+        <input type="checkbox" name="book_id" value="{{ book.BookID }}" {% if availability == 'available' and not book.Status == 'available' or availability == 'unavailable' and book.Status == ' unavailable' %} disabled {% endif %}>
+        <span>{{ book.Title }} by {{ book.Author }} ({{ 'Available' if book.Status == 'available' else 'unavailable' }})</span>
+      </label>
+    </div>
+    <a href="{{ url_for('edit_book', book_id=book.BookID) }}" class="edit-btn">Edit</a>
+  </div>
+  {% endfor %}
+  <input type="submit" value="{{ 'Reserve' if availability == 'unavailable' else 'Check Out' }}">
+</form>
+
+
+<script>
+  // Modal script
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("myBtn");
+  var span = document.getElementsByClassName("close")[0];
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+
+</body>                  
+</html>

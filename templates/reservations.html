@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservations</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .reservation {
+    margin: 20px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+  }
+  .reservation-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    text-align: left;
+  }
+  .reservation-item {
+    display: flex;
+    text-align: center;
+  }
+  .reservation-item strong {
+    margin-right: 5px;  /* Add space between the label and its value */
+  }
+  .home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  .edit-btn, .add-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .edit-btn:hover, .add-btn:hover {
+    background-color: #0056b3;
+  }
+  input[type="submit"] {
+    width: 200px;
+    padding: 10px;
+    margin: 20px auto;
+    font-size: 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<a href="{{ url_for('home') }}" class="home-button">Home</a>
+
+<div class="header">
+  <h1>Reservations</h1>
+</div>
+
+{% for reservation in reservations %}
+<div class="reservation">
+  <div class="reservation-details">
+    <div class="reservation-item"><strong>ReservationID:</strong> <span>{{ reservation.ReservationID }}</span></div>
+    <div class="reservation-item"><strong>Reserve Date:</strong> <span>{{ reservation.ReserveDate.strftime('%B %d') }}</span></div>
+    <div class="reservation-item"><strong>BookID:</strong> <span>{{ reservation.BookID }}</span></div>
+    <div class="reservation-item"><strong>Status:</strong> <span>{{ reservation.Status }}</span></div>
+    <div class="reservation-item"><strong>PatronID:</strong> <span>{{ reservation.PatronID }}</span></div>
+  </div>
+</div>
+{% endfor %}
+
+</body>
+</html>
+
+

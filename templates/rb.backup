@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Report</title>
+</head>
+<body>
+    <h1>Book Report</h1>
+    <form action="/report_books" method="post">
+        <label for="category">Category:</label>
+	<!--<input type="text" id="category" name="category"><br><br>-->
+        <select name="category" id="category">
+            <option value="">--Select a Category--</option>
+            {% for category in categories %}
+            <option value="{{ category[0] }}">{{ category[0] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+
+        <label for="author">Author:</label>
+	<!--<input type="text" id="author" name="author"><br><br>-->
+	<select name="author" id="author">
+            <option value="">--Select an Author--</option>
+            {% for author in authors %}
+            <option value="{{ author[0] }}">{{ author[0] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Generate Report">
+    </form>
+</body>
+</html>
+

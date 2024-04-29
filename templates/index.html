@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library of Alexandria - Admin Panel</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .sub-header {
+    background: #555;
+    color: white;
+    padding: 10px;
+  }
+  .button-container {
+    margin: 20px;
+  }
+  .admin-button {
+    display: block;
+    width: 200px;
+    padding: 10px;
+    margin: 10px auto;
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    background: #007bff;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Library of<br>Alexandria</h1>
+</div>
+
+<div class="sub-header">
+  <p>Admin Access</p>
+</div>
+
+<div class="button-container">
+  <a href="{{ url_for('view_patrons') }}" class="admin-button">View Patrons</a>
+  <a href="{{ url_for('view_books') }}" class="admin-button">View Books</a>
+  <a href="{{ url_for('view_loans') }}" class="admin-button">View Loans</a>
+  <a href="{{ url_for('view_reservations') }}" class="admin-button">View Reservations</a>
+  <a href="{{ url_for('report_books') }}" class="admin-button">Book Report</a>
+</div>
+
+</body>
+</html>
+

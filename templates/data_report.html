@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library of Alexandria - Data Report</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .sub-header {
+    background: #555;
+    color: white;
+    padding: 10px;
+  }
+  .content {
+    margin: 20px;
+    padding: 10px;
+    text-align: left;
+  }
+  .filter-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #eee;
+  }
+  select, input[type="date"] {
+    padding: 8px;
+    margin-right: 10px;
+    width: 200px;
+  }
+  .data-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  .data-table th {
+    background: #ddd;
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Library of Alexandria - Data Report</h1>
+</div>
+<div class="sub-header">
+  <h2>Books Report</h2>
+</div>
+<div class="content">
+  <div class="filter-section">
+    <select id="bookCategory">
+      <option value="">Select Category</option>
+    </select>
+    <select id="bookAuthor">
+      <option value="">Select Author</option>
+    </select>
+    <select id="bookStatus">
+      <option value="">Select Status</option>
+      <option value="Available">Available</option>
+      <option value="Checked Out">Checked Out</option>
+    </select>
+    <button onclick="filterBooks()">Filter Books</button>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+	<th>ISBN</th>
+        <th>Category</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Book data should be dynamically inserted here -->
+    </tbody>
+  </table>
+</div>
+<!--
+<div class="sub-header">
+  <h2>Patrons Report</h2>
+</div>
+<div class="content">
+  <div class="filter-section">
+    <input type="date" id="startDate">
+    <input type="date" id="endDate">
+    <button onclick="filterPatrons()">Filter Patrons</button>
+  </div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+	<th>Email</th>
+        <th>Membership Date</th>
+        <th>Membership Status</th>
+      </tr>
+    </thead>
+    <tbody>
+       Patron data should be dynamically inserted here
+    </tbody>
+  </table>
+</div>
+--!>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetchFilters();
+});
+
+function fetchFilters() {
+    fetch('/api/filters')
+    .then(response => response.json())
+    .then(data => {
+        const categorySelect = document.getElementById('bookCategory');
+        const authorSelect = document.getElementById('bookAuthor');
+
+        data.categories.forEach(category => {
+            let option = new Option(category, category);
+            categorySelect.appendChild(option);
+        });
+
+        data.authors.forEach(author => {
+            let option = new Option(author, author);
+            authorSelect.appendChild(option);
+        });
+    });
+}
+
+function filterBooks() {
+    const category = document.getElementById('bookCategory').value;
+    const author = document.getElementById('bookAuthor').value;
+    const status = document.getElementById('bookStatus').value;
+
+    fetch(`/api/books?category=${category}&author=${author}&status=${status}`)
+    .then(response => response.json())
+    .then(books => {
+        const tbody = document.querySelector('.data-table tbody');
+        tbody.innerHTML = '';  // Clear existing rows
+        books.forEach(book => {
+            const row = tbody.insertRow();
+            row.insertCell().textContent = book.Title;
+            row.insertCell().textContent = book.Author;
+            row.insertCell().textContent = book.ISBN;
+            row.insertCell().textContent = book.Category;
+            row.insertCell().textContent = book.Status ? 'Available' : 'Checked Out';
+        });
+    });
+}
+</script>
+
+</body>
+</html>
+

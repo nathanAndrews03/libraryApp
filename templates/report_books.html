@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library of Alexandria - Data Report</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  .header {
+    background: #333;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .header h1 {
+    margin: 0;
+    padding: 0;
+  }
+  .sub-header {
+    background: #555;
+    color: white;
+    padding: 10px;
+  }
+  .content {
+    margin: 20px;
+    padding: 10px;
+    text-align: left;
+  }
+  .filter-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #eee;
+  }
+  .home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  select, input[type="submit"] {
+    padding: 8px;
+    margin-right: 10px;
+    width: 200px;
+  }
+</style>
+</head>
+<body>
+<a href="{{ url_for('home') }}" class="home-button">Home</a>
+
+<div class="header">
+  <h1>Library of Alexandria - Data Report</h1>
+</div>
+<div class="sub-header">
+  <h2>Filter Books</h2>
+</div>
+<div class="content">
+  <form action="/report_books" method="post">
+    <div class="filter-section">
+      <select name="category" id="bookCategory">
+        <option value="">Select Category</option>
+        {% for category in categories %}
+          <option value="{{ category[0] }}">{{ category[0] }}</option>
+        {% endfor %}
+      </select>
+      <select name="author" id="bookAuthor">
+        <option value="">Select Author</option>
+        {% for author in authors %}
+          <option value="{{ author[0] }}">{{ author[0] }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Filter Books">
+    </div>
+  </form>
+</div>
+</body>
+</html>
+
